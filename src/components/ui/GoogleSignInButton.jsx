@@ -1,5 +1,5 @@
 import React, { Children } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../components/ui/button';
 
 const GoogleSignInButton = ({ children }) => {
     const loginWithGoogle = () => {

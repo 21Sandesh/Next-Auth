@@ -9,14 +9,14 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import GoogleSignInButton from "@/components/ui/GoogleSignInButton";
+import GoogleSignInButton from "../../components/ui/GoogleSignInButton";
 
 const FormSchema = z
     .object({

@@ -9,14 +9,16 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { signIn } from 'next-auth/react';
+import { useRouter } from "next/navigation";
 
-import GoogleSignInButton from "@/components/ui/GoogleSignInButton";
+import GoogleSignInButton from "../../components/ui/GoogleSignInButton";
 
 const FormSchema = z.object({
   email: z.string().min(1, "Email Required!").email("Invalid Email!"),
@@ -24,6 +26,7 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -31,8 +34,19 @@ const SignInForm = () => {
       password: "",
     },
   });
-  const onSubmit = (FormSchema) => {
-    console.log(FormSchema);
+  const onSubmit = async (FormSchema) => {
+    const signInData = await signIn('credentials', {
+      email: FormSchema.email,
+      password: FormSchema.password,
+      redirect: false,
+    });
+    if (signInData.error) {
+      console.log(signInData.error);
+    }
+    else {
+      location.reload();
+      router.push('/dashboard');
+    }
   };
 
   return (
