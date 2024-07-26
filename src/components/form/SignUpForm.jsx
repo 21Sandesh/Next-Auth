@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import GoogleSignInButton from "@/components/ui/GoogleSignInButton";
 
 const FormSchema = z
@@ -30,6 +31,7 @@ const FormSchema = z
     });
 
 const SignUpForm = () => {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -39,8 +41,24 @@ const SignUpForm = () => {
       confirmPassword: "",
     },
   });
-  const onSubmit = (FormSchema) => {
-    console.log(FormSchema);
+  const onSubmit = async (FormSchema) => {
+    const response = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: FormSchema.username,
+        email: FormSchema.email,
+        password: FormSchema.password
+      })
+    })
+
+    if (response.ok) {
+      router.push("/sign-in");
+    }else {
+      console.log("Registration Failed!");
+    }
   };
 
   return (
