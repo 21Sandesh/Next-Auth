@@ -2,7 +2,7 @@
 
 import { Button } from "../components/ui/button";
 import { signOut } from 'next-auth/react';
-import { useToast } from "../components/ui/use-toast";
+import { useToast } from "./ui/use-toast";
 
 
 const UserAccountNav = () => {

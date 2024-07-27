@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signIn } from 'next-auth/react';
 import { useRouter } from "next/navigation";
-import { useToast } from "../../components/ui/use-toast";
+import { useToast } from "../ui/use-toast";
 
 import GoogleSignInButton from "../../components/ui/GoogleSignInButton";
 

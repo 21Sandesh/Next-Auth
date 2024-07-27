@@ -27,7 +27,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/(dashboard)/dashboard/page.jsx"  ],
+, "src/app/(dashboard)/dashboard/page.jsx", "src/components/Provider.jsx"  ],
   "exclude": [
     "node_modules"
   ]
