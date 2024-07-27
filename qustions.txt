@@ -1,0 +1,2 @@
+Difference in import { authOptions } and import authOptions
+What is async and await, why they are used, What if we do not use;

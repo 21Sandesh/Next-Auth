@@ -1,4 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { db } from '../lib/db';
 import { compare } from 'bcrypt';
@@ -13,6 +14,10 @@ export const authOptions = {
         signIn: '/sign-in',
     },
     providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        }),
         CredentialsProvider({
             name: 'credentials',
             credentials: {
@@ -38,13 +43,17 @@ export const authOptions = {
                         message: "User not found",
                     };
                 }
-                const passwordMatch = await compare(credentials.password, exisitingUser.password);
-                if (!passwordMatch) {
-                    return {
-                        code: 401,
-                        message: "Invalid Password",
+
+                if (exisitingUser.password) {
+                    const passwordMatch = await compare(credentials.password, exisitingUser.password);
+                    if (!passwordMatch) {
+                        return {
+                            code: 401,
+                            message: "Invalid Password",
+                        }
                     }
                 }
+                
                 // console.log(exisitingUser);
                 return {
                     id: exisitingUser.id,
