@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signIn } from 'next-auth/react';
 import { useRouter } from "next/navigation";
+import { useToast } from "../../components/ui/use-toast";
 
 import GoogleSignInButton from "../../components/ui/GoogleSignInButton";
 
@@ -27,6 +28,7 @@ const FormSchema = z.object({
 
 const SignInForm = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -40,12 +42,22 @@ const SignInForm = () => {
       password: FormSchema.password,
       redirect: false,
     });
-    if (signInData.error) {
-      console.log(signInData.error);
+    console.log(signInData);
+    if (signInData?.error) {
+      toast({
+        title : 'Error',
+        description: "Oops! Something went wrong. Please try again.",
+        variant: 'destructive',
+      });
     }
     else {
       location.reload();
       router.push('/dashboard');
+      toast({
+        title : 'Success',
+        description: "Log In Successfull!",
+        variant: 'success',
+      });
     }
   };
 

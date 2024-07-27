@@ -22,6 +22,7 @@ export const authOptions = {
             async authorize(credentials) {
                 if (!credentials.email || !credentials.password) {
                     return {
+                        code: 401,
                         message: "Email and Password are required"
                     }
                 }
@@ -33,12 +34,14 @@ export const authOptions = {
                 })
                 if (!exisitingUser) {
                     return {
+                        code: 401,
                         message: "User not found",
                     };
                 }
                 const passwordMatch = await compare(credentials.password, exisitingUser.password);
                 if (!passwordMatch) {
                     return {
+                        code: 401,
                         message: "Invalid Password",
                     }
                 }
@@ -46,7 +49,8 @@ export const authOptions = {
                 return {
                     id: exisitingUser.id,
                     username: exisitingUser.username,
-                    email: exisitingUser.email
+                    email: exisitingUser.email,
+                    code: 200,
                 };
             },
         }),

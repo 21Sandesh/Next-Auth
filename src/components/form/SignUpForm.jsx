@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import GoogleSignInButton from "../../components/ui/GoogleSignInButton";
+import { useToast } from "../../components/ui/use-toast";
 
 const FormSchema = z
     .object({
@@ -32,6 +33,7 @@ const FormSchema = z
 
 const SignUpForm = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -56,8 +58,17 @@ const SignUpForm = () => {
 
     if (response.ok) {
       router.push("/sign-in");
+      toast({
+        title : 'Success',
+        description: "Registration Successful! Please Sign In!",
+        variant: 'success',
+      });
     }else {
-      console.log("Registration Failed!");
+      toast({
+        title : 'Error',
+        description: "Oops! Something went wrong. Please try again.",
+        variant: 'destructive',
+      });
     }
   };
 
